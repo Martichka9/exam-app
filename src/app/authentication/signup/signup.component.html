@@ -1,0 +1,27 @@
+<div class="container mx-auto offset-3 col-4">
+    <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+        <div>
+        </div>    
+        <div class="form-group">
+          <label for="username">User name</label>
+          <input formControlName="username" type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter user name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input formControlName="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input formControlName="password" type="password" class="form-control" id="password" placeholder="Password" required>
+        </div>
+        <div class="form-group">
+          <label for="confirmPass">Confirm Password</label>
+          <input formControlName="confirmPass" type="password" class="form-control" id="confirmPass" placeholder="Confirm Password" required>
+        </div>
+        <div class="form-group form-check">
+          <input formControlName="termsOfUse" type="checkbox" class="form-check-input" id="termsOfUse" required>
+          <label class="form-check-label" for="termsOfUse">Confirm you agree with our <a>Terms of use</a></label>
+        </div>
+        <button type="submit" class="btn btn-warning" [disabled]="signUpForm.invalid">Submit</button>
+      </form>
+  </div>
