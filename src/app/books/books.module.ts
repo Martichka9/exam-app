@@ -1,16 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BooksComponent } from './books/books.component';
-import { CreateBookComponent } from './create-book/create-book.component';
-import { EditBookComponent } from './edit-book/edit-book.component';
+import { FormsModule } from '../../../node_modules/@angular/forms';
+import { BooksRoutingModule } from '../routing/books.routings';
+import { booksComponents } from './index';
+import { BooksService } from './books.service';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    BooksRoutingModule
   ],
   declarations: [
-    BooksComponent,
-    CreateBookComponent,
-    EditBookComponent]
+		...booksComponents
+	],
+	providers: [
+		BooksService
+	],
+	exports: [
+		CommonModule
+	]
 })
 export class BooksModule { }

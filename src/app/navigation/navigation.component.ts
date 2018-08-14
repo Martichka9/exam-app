@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../authentication/authentication/auth.service';
 import { Router } from '@angular/router';
+import { BooksRoutingModule } from "../routing/books.routings";
 
 @Component({
   selector: 'app-navigation',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor(private authServ: AuthService, private router: Router) { }
+  constructor(private authServ: AuthService, private router: Router, private booksRouter : BooksRoutingModule) { }
 
   ngOnInit() {
     this.authServ.isAuthenticated();
@@ -17,6 +18,6 @@ export class NavigationComponent implements OnInit {
 
   signOut() {
     localStorage.clear();
-    this.router.navigate(['/signin']);
+    this.authServ.signOut();
   }
 }
