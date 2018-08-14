@@ -10,10 +10,9 @@ import { AuthenticationModule } from './authentication/authentication/authentica
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './routing/app.routing';
 import { AuthService } from './authentication/authentication/auth.service';
-import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TermsOfUseComponent } from './authentication/terms-of-use/terms-of-use.component';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -35,15 +34,11 @@ import { TermsOfUseComponent } from './authentication/terms-of-use/terms-of-use.
   providers: [
     ToastrService,
     ReactiveFormsModule,
-    AuthService/*,{ 
+    AuthService,{ 
       provide: HTTP_INTERCEPTORS,
-      useClass: JTWInterceptor,
+      useClass: TokenInterceptor,
       multi: true
-    },{
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor,
-      multi: true
-    } */
+    }
   ],
   bootstrap: [AppComponent]
 })
