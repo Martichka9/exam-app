@@ -9,11 +9,11 @@ import { AuthGuard } from '../authentication/authentication/auth.guard';
 
 const routes : Routes = [
     //{ path: 'home', component: HomeComponent },
+    { path: '', pathMatch: 'full', redirectTo: 'home' },
     { path: 'home', component: HomeComponent },
     { path: 'signin', component: SigninComponent},
     { path: 'signup', component: SignupComponent },
     { path: 'terms', component: TermsOfUseComponent },
-    { path: '', pathMatch: 'full', redirectTo: 'home' },
     { path: 'books', loadChildren: () => BooksModule }
   ]
   

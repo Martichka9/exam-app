@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../authentication/auth.service';
 import { FormGroup,FormBuilder,Validators } from '@angular/forms';
 import { ToastrService } from '../../../../node_modules/ngx-toastr';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signin',
@@ -12,7 +11,7 @@ import { Router } from '@angular/router';
 export class SigninComponent implements OnInit {
   signInForm: FormGroup;
 
-  constructor(private authServ : AuthService, private signInFB: FormBuilder,private toastr: ToastrService, private router: Router) {}
+  constructor(private authServ : AuthService, private signInFB: FormBuilder,private toastr: ToastrService) {}
 
   ngOnInit() {
     this.signInForm = this.signInFB.group({

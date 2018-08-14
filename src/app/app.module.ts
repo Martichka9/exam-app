@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TermsOfUseComponent } from './authentication/terms-of-use/terms-of-use.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { BooksModule } from './books/books.module';
+import { BooksRoutingModule } from './routing/books.routings';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { BooksModule } from './books/books.module';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    BooksModule
+    BooksModule,
+    BooksRoutingModule
   ],
   providers: [
     ToastrService,

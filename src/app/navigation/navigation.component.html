@@ -13,10 +13,10 @@
           <a class="nav-link" routerLink="/signup">Sign up</a>
         </li>
         <li  *ngIf="authServ.isAuthenticated()" class="nav-item">
-          <a class="nav-link pointer" routerLonk="/books/all">All books</a>
+          <a class="nav-link pointer" routerLink="/books">All books</a>
         </li>
         <li  *ngIf="authServ.isAuthenticated()" class="nav-item">
-          <a class="nav-link pointer" routerLonk="/books/my">My books</a>
+          <a class="nav-link pointer" routerLink="/books/my">My books</a>
         </li>
         <li  *ngIf="authServ.isAuthenticated()" class="nav-item">
           <a class="nav-link pointer" (click)="signOut()">Sign out</a>

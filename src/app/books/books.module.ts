@@ -4,6 +4,8 @@ import { FormsModule } from '../../../node_modules/@angular/forms';
 import { BooksRoutingModule } from '../routing/books.routings';
 import { booksComponents } from './index';
 import { BooksService } from './books.service';
+import { MyBooksComponent } from './my-books/my-books.component';
+import { BooksComponent } from './books/books.component';
 
 @NgModule({
   imports: [
@@ -12,13 +14,15 @@ import { BooksService } from './books.service';
     BooksRoutingModule
   ],
   declarations: [
-		...booksComponents
+		...booksComponents,
+		MyBooksComponent
 	],
 	providers: [
 		BooksService
 	],
 	exports: [
-		CommonModule
+		CommonModule,
+		BooksComponent
 	]
 })
 export class BooksModule { }

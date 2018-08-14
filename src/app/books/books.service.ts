@@ -9,9 +9,9 @@ export class BooksService{
     constructor(private http : HttpClient){}
 
     getAllBooks(){
-        return this.http.get(`${baseUrl}.json`)
-        .pipe(map((response : Response) => {
-            console.log(response);
-        }));
+        return this.http.get(`${baseUrl}.json`).subscribe((data)=> {console.log(JSON.stringify(data))});
+        //.pipe(map((response : Response) => {
+          //  console.log(response);
+        //}));
     }
 }
