@@ -11,7 +11,6 @@ const routes : Routes = [
     { path: 'signin', component: SigninComponent },
     { path: 'signup', component: SignupComponent },
     { path: 'terms', component: TermsOfUseComponent },
-    { path: 'books', loadChildren(){} },
     { path: '', pathMatch: 'full', redirectTo: 'home' }
   ]
   
