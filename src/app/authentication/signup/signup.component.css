@@ -1,0 +1,7 @@
+a:hover {
+    cursor: pointer;
+}
+
+div > label > a.badge{
+    font-size: 16px;
+}

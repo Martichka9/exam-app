@@ -13,12 +13,14 @@ import { AuthService } from './authentication/authentication/auth.service';
 import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TermsOfUseComponent } from './authentication/terms-of-use/terms-of-use.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
-    HomeComponent
+    HomeComponent,
+    TermsOfUseComponent
   ],
   imports: [
     BrowserModule,

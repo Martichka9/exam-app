@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { SignUpModel } from '../../models/signup.model';
 import { AuthService } from '../authentication/auth.service';
 import { FormGroup,FormControl, FormBuilder, Validators } from "@angular/forms";
 import { ToastrService } from '../../../../node_modules/ngx-toastr';
+import { Router } from '@angular/router';
+import { AppRoutingModule } from "../../routing/app.routing";
+
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +20,7 @@ export class SignupComponent implements OnInit {
   };
 
 
-  constructor(private authServ: AuthService, private signUpFB: FormBuilder, private toastr: ToastrService) {
+  constructor(private authServ: AuthService, private signUpFB: FormBuilder, private toastr: ToastrService, private router : Router) {
     //this.model = new SignUpModel("","","","",0);
   }
 
