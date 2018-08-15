@@ -1,5 +1,6 @@
 export class ABook {
     constructor(
+        id : string,
         author : string,
         bestseller : string,
         description: string,

@@ -1,5 +1,5 @@
-<div class="container" *ngIf="">
-  <ul id="booksList">
-      <li class="col-4 text-center abook" *ngFor="">test</li>
+<div class="container">
+  <ul>
+      <li *ngFor="let book of books | async">{{book}} </li>
   </ul>
 </div>
