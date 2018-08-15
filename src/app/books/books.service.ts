@@ -4,7 +4,7 @@ import { map } from "rxjs/operators";
 import { ABook } from "../models/book.model";
 import { Observable } from "../../../node_modules/rxjs";
 
-const baseUrl = "https://exam-app-bc38c.firebaseio.com/books/";
+const baseUrl = "https://exam-app-bc38c.firebaseio.com/books";
 
 @Injectable({
     providedIn: 'root'
