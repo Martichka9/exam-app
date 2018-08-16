@@ -4,25 +4,28 @@ import { FormsModule } from '../../../node_modules/@angular/forms';
 import { BooksRoutingModule } from '../routing/books.routings';
 import { booksComponents } from './index';
 import { BooksService } from './books.service';
-import { MyBooksComponent } from './my-books/my-books.component';
-import { BooksComponent } from './books/books.component';
+
+import { environment } from "../environments/environment"
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    BooksRoutingModule
+    BooksRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule
   ],
   declarations: [
-		...booksComponents,
-		MyBooksComponent
+		...booksComponents
 	],
 	providers: [
 		BooksService
 	],
 	exports: [
-		CommonModule,
-		BooksComponent
+		CommonModule
 	]
 })
 export class BooksModule { }

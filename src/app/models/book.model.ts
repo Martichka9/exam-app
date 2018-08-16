@@ -6,7 +6,7 @@ export class ABook {
         description: string,
         genre : string,
         imagePath : string,
-        titele : string,
+        title : string,
         upvotes : 0
     ){}
 }

@@ -4,16 +4,16 @@ import { Observable } from "rxjs";
 import { AuthService } from "../authentication/authentication/auth.service";
 
 @Injectable()
-export class TokenInterceptor implements HttpInterceptor{
-    constructor(private authServ : AuthService){}
+export class TokenInterceptor implements HttpInterceptor {
+  constructor(private authService : AuthService) {}
 
-    intercept(request: HttpRequest<any>, next : HttpHandler) : Observable<HttpEvent<any>>{
-        const token = this.authServ.getToken();
-        if (token){
-            request = request.clone({
-                url: `${request.url}?auth=${token}`
-            });
-        }
-        return next.handle(request);
+  intercept(req: HttpRequest<any>, next: HttpHandler) : Observable<HttpEvent<any>> {
+    const token = this.authService.getToken();
+    if (token) {
+      req = req.clone({
+        url: `${req.url}?auth=${token}`
+      });
     }
+    return next.handle(req);
+  }
 }
