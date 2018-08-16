@@ -1,26 +1,18 @@
-<div class="row">
-  <div class="col-xs-12">
-  <!--   <button class="btn btn-success" routerLink="/recipes/create">New Recipe</button> -->
-  </div>
-</div>
-<hr>
-<div class="row">
-  <div *ngFor="let abook of booksList" class="col-xs-12">
-      <!-- <a
-      routerLink="/recipes/details/{{abook.id}}"
-      style="cursor: pointer;"
-      class="list-group-item clearfix"> -->
-      <div class="pull-left">
-        <h4 class="list-group-item-heading">{{abook.title}}</h4>
-        <p class="list-group-item-text">{{abook.author}}</p>
+<div class="container-fluid mt-3">
+  <ul class="d-flex flex-wrap justify-content-around">
+    <li *ngFor="let book of booksList" class="col-3 abook border border-warning mx-1 my-1">
+      <div class="align-items-end">
+        <div class="bookContainer">
+          <img src="{{book.imagePath}}" alt="{{book.title}}" class="rounded mx-auto d-block" style="max-height: 150px;">
+          <h4 class="list-group-item-heading text-center">{{book.title}}</h4>
+          <h5 class="list-grouh2-item-text text-center">{{book.author}}</h5>
+        </div>
+        <div class="d-flex justify-content-around ">
+            <button type="button" class="btn btn-success mx-1">Like</button>
+            <button type="button" class="btn btn-info mx-1">Review</button>
+            <button type="button" class="btn btn-warning mx-1">Add to collection</button>
+        </div>
       </div>
-      <span class="pull-right">
-            <img
-              src="{{abook.imagePath}}"
-              alt="{{abook.title}}"
-              class="img-responsive"
-              style="max-height: 50px;">
-       </span>
-   <!--  </a> -->      
-  </div>
+    </li>
+  </ul>
 </div>

@@ -1,7 +1,12 @@
-#booksList{
-    display: flex;
+.abook {
+    box-sizing: border-box;
+    padding-top: 3%;
+    list-style-type: none;
+    width: 170px;
+    height: 350px;
 }
 
-.abook {
-    list-style-type: none;
+.bookContainer{
+    height: 250px;
+    display: block;
 }

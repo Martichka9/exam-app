@@ -25,7 +25,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 		BooksService
 	],
 	exports: [
-		CommonModule
+    CommonModule
 	]
 })
 export class BooksModule { }

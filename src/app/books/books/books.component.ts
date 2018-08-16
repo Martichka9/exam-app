@@ -1,9 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BooksService } from '../books.service';
-import { ABook } from '../../models/book.model';
-import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
-import { AngularFireList } from 'angularfire2/database';
 
 @Component({
   selector: 'app-books',
