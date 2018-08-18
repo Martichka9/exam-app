@@ -3,7 +3,8 @@ import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { ABook } from "../models/book.model";
 import { Observable } from "../../../node_modules/rxjs";
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
+import { Router } from "../../../node_modules/@angular/router";
 
 const baseUrl = "https://exam-app-bc38c.firebaseio.com/books/";
 
@@ -13,12 +14,18 @@ const baseUrl = "https://exam-app-bc38c.firebaseio.com/books/";
 export class BooksService{
   private dbPath = '/books';
    aBookRef : AngularFireList<ABook> = null;
+   abookPath : string = baseUrl;
+   bookReview : ABook;
  
-  constructor(private db: AngularFireDatabase) {
+  constructor(private db: AngularFireDatabase,private router : Router) {
     this.aBookRef = db.list(this.dbPath);
   }
  
   getAllBooks() : AngularFireList<ABook> {
     return this.aBookRef;
+  }
+
+  reviewBook(bookPath : string) {
+    return this.db.list(`${this.dbPath}`);
   }
 }
