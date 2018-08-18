@@ -5,12 +5,3 @@
     height: fit-content;
     box-sizing: border-box;
 }
-
-.bookContainer{
-    height: 250px;
-    display: block;
-}
-
-.view {
-    cursor: pointer;
-}

@@ -1,0 +1,9 @@
+
+.bookContainer{
+    display: block;
+    min-height: 250px;
+}
+
+.view {
+    cursor: pointer;
+}
