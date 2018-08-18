@@ -11,7 +11,7 @@ import { ReviewComponent } from '../books/review/review.component';
 
 const booksRoutes : Routes = [
     { path: '', component: BooksComponent },
-    { path: 'edit/:id', component: EditBookComponent/*, canActivate : [AuthGuard] */ },
+    { path: 'edit/:id', component: EditBookComponent, canActivate : [AuthGuard] },
     { path: 'add', component: CreateBookComponent, canActivate : [AuthGuard] },
     { path: 'my', component: MyBooksComponent, canActivate : [AuthGuard] },
     { path: 'review/:id', component: ReviewComponent, canActivate : [AuthGuard] }

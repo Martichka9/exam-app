@@ -32,10 +32,10 @@ export class AuthService {
       firebase.auth().currentUser.getIdToken().then((resToken : string) => {
         this.token = resToken;
         localStorage.setItem('token',this.token);
-      })
+      }),
+      this.router.navigate(['/home']);
     })
     .catch((resError) => this.toastr.error(resError['message']));
-    this.router.navigate(['/home']);
   }
 
   signOut(){

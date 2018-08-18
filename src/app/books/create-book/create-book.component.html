@@ -1,3 +1,37 @@
-<p>
-  create-book works!
-</p>
+<div class="container offset-md-2 col-md-8">
+    <form [formGroup]="createABookForm" (ngSubmit)="addABook()">
+        <div>
+        </div> 
+        <div class="form-row"> 
+          <div class="form-group col-md-4">
+            <label for="title">Title</label>
+            <input formControlName="title" type="text" class="form-control" id="title" required>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="author">Author</label>
+            <input formControlName="author" type="text" class="form-control" id="author" required>
+          </div>
+        </div>  
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="genre">Genre</label>
+            <input formControlName="genre" type="text" class="form-control" id="genre" required>
+          </div>
+          <div class="form-group col-md-4 form-check mt-4 ml-5">
+            <input formControlName="bestseller" type="checkbox" class="form-check-input " id="bestseller" required>
+            <label class="form-check-label" for="bestseller">Bestseller</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea formControlName="description" rows="6" cols="150" class="form-control" id="description" required></textarea>
+          </div>
+        </div>
+        <div class="form-group form-row">
+          <label for="password">Image Path</label>
+          <input formControlName="imagePath" type="text" class="form-control" id="imagePath" required>
+        </div>
+        <button type="submit" class="btn btn-warning">Create a book</button>
+      </form>
+  </div>

@@ -25,7 +25,7 @@ export class EditBookComponent implements OnInit {
       description: ["",[Validators.required]],
       genre: ["",[Validators.required]],
       imagePath: ["",[Validators.required]],
-      bestseller: ["",[Validators.required]]
+      bestseller: [0,[Validators.required]]
     });
 
     this.lBPath = this.router.url.toString().replace(`/books/edit/`,``);

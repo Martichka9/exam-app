@@ -32,6 +32,13 @@ export class BooksService{
 
   editABook(key: string, value: any): void {
       this.aBookRef.update(key, value)
+      .then(res => this.toastr.info("Book updated successfuly!"),
+            res => this.toastr.warning(res,"Warning!"))
       .catch(error => this.toastr.error(error, "Warning"));
+  }
+
+  createABook(newBook : ABook){
+    this.aBookRef.push(newBook).then(res => this.toastr.info("Book updated successfuly!"),
+    res => this.toastr.warning(res,"Warning!"));
   }
 }
