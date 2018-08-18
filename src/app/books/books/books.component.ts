@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BooksService } from '../books.service';
-import { Books } from "../../models/books.model"
 import { map } from "rxjs/operators";
 import { AuthService } from '../../authentication/authentication/auth.service';
 

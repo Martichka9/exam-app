@@ -8,6 +8,7 @@ import { BooksService } from './books.service';
 import { environment } from "../environments/environment"
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreModule } from '../../../node_modules/angularfire2/firestore';
 
 
 @NgModule({
@@ -16,13 +17,15 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
     ReactiveFormsModule,
     BooksRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     AngularFireDatabaseModule
   ],
   declarations: [
 		...booksComponents
 	],
 	providers: [
-		BooksService
+    BooksService,
+    AngularFirestore
 	],
 	exports: [
     CommonModule

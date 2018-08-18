@@ -2,10 +2,14 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { ABook } from "../models/book.model";
-import { Observable, empty } from "../../../node_modules/rxjs";
-import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
-import { Router } from "../../../node_modules/@angular/router";
-import { Toast, ToastrService } from "../../../node_modules/ngx-toastr";
+
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { AngularFirestore, DocumentReference } from 'angularfire2/firestore';
+import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import { transition } from "../../../node_modules/@angular/animations";
+import { ngDevModeResetPerfCounters } from "../../../node_modules/@angular/core/src/render3/ng_dev_mode";
+import { DatabaseReference } from "../../../node_modules/angularfire2/database/interfaces";
 
 const baseUrl = "https://exam-app-bc38c.firebaseio.com/books/";
 
@@ -14,12 +18,16 @@ const baseUrl = "https://exam-app-bc38c.firebaseio.com/books/";
 })
 export class BooksService{
   private dbPath = '/books';
-   aBookRef : AngularFireList<ABook> = null;
-   abookPath : string = baseUrl;
-   bookReview : ABook;
-   tempTitle : string = "";
- 
-  constructor(private db: AngularFireDatabase,private router : Router, private toastr : ToastrService) {
+  private docRef : any;
+  aBookRef : AngularFireList<ABook> = null;
+  abookPath : string = baseUrl;
+  bookReview : ABook;
+  tempTitle : string = "";
+  newUpvotes : number;
+    
+
+  constructor(private db: AngularFireDatabase,private router : Router,
+    private toastr : ToastrService, private afs : AngularFirestore) {
     this.aBookRef = db.list(this.dbPath);
   }
  
@@ -66,5 +74,14 @@ export class BooksService{
   }
 
   like(id:string){
+    this.docRef = this.afs.collection("books").doc(id).ref;
+    console.log("docref");
+    console.log(this.docRef);
+    this.afs.firestore.runTransaction(transaction => 
+      transaction.get(this.docRef).then((data) =>{
+          this.newUpvotes = this.docRef.data.upvotes + 1;
+          transaction.update(this.docRef, {upvotes: this.newUpvotes});
+          this.toastr.success(this.docRef.data.title + " book liked!", "Succsess!");
+        },error => {this.toastr.error(error)}));
   }
 }
