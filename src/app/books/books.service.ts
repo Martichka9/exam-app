@@ -5,6 +5,7 @@ import { ABook } from "../models/book.model";
 import { Observable } from "../../../node_modules/rxjs";
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import { Router } from "../../../node_modules/@angular/router";
+import { Toast, ToastrService } from "../../../node_modules/ngx-toastr";
 
 const baseUrl = "https://exam-app-bc38c.firebaseio.com/books/";
 
@@ -17,7 +18,7 @@ export class BooksService{
    abookPath : string = baseUrl;
    bookReview : ABook;
  
-  constructor(private db: AngularFireDatabase,private router : Router) {
+  constructor(private db: AngularFireDatabase,private router : Router, private toastr : ToastrService) {
     this.aBookRef = db.list(this.dbPath);
   }
  
@@ -27,5 +28,10 @@ export class BooksService{
 
   reviewBook(bookPath : string) {
     return this.db.list(`${this.dbPath}`);
+  }
+
+  editABook(key: string, value: any): void {
+      this.aBookRef.update(key, value)
+      .catch(error => this.toastr.error(error, "Warning"));
   }
 }

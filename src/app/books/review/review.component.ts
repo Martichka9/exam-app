@@ -17,7 +17,6 @@ export class ReviewComponent implements OnInit {
 
   ngOnInit() {
     this.currentBook = this.router.url.toString().replace(`/books/review/`,``);
-    console.log(this.currentBook);
     this.bServ.reviewBook(this.currentBook).snapshotChanges().pipe(
       map(booksList =>
         booksList.map(c => ({ id: c.payload.key, ...c.payload.val() }))
@@ -26,7 +25,6 @@ export class ReviewComponent implements OnInit {
     ).subscribe(book => {
       this.aBook = book;
     });
-    console.log(this.aBook);
   }
 
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '../../../node_modules/@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BooksRoutingModule } from '../routing/books.routings';
 import { booksComponents } from './index';
 import { BooksService } from './books.service';
@@ -13,7 +13,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     BooksRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule
