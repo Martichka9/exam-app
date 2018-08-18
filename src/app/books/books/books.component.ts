@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BooksService } from '../books.service';
+import { Books } from "../../models/books.model"
 import { map } from "rxjs/operators";
+import { AuthService } from '../../authentication/authentication/auth.service';
 
 @Component({
   selector: 'app-books',
@@ -10,17 +12,16 @@ import { map } from "rxjs/operators";
 export class BooksComponent implements OnInit {
   booksList: any;
  
-  constructor(private bServ : BooksService) { }
+  constructor(private bServ : BooksService,private authServ : AuthService) { }
  
   ngOnInit() {
     this.getBooksList();
   }
  
   getBooksList() {
-    // Use snapshotChanges().map() to store the key
     this.bServ.getAllBooks().snapshotChanges().pipe(
       map(changes =>
-        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+        changes.map(c => ({ id: c.payload.key, ...c.payload.val() }))
       )
     ).subscribe(booksList => {
       this.booksList = booksList;
