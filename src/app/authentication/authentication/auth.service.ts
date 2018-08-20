@@ -8,6 +8,7 @@ import { ToastrService } from '../../../../node_modules/ngx-toastr';
 export class AuthService {
   public tempUser : any;
   public currentUserName: string;
+  public usrID : string;
   public token : string;
 
   constructor(private http : HttpClient,private router: Router, private toastr: ToastrService) {  }
@@ -29,6 +30,7 @@ export class AuthService {
     firebase.auth().signInWithEmailAndPassword(email,password)
     .then((data) => {
       this.currentUserName=data['user']['displayName'];
+      localStorage.setItem('usrid',data['user']['uid']);
       firebase.auth().currentUser.getIdToken().then((resToken : string) => {
         this.token = resToken;
         localStorage.setItem('token',this.token);
@@ -59,5 +61,9 @@ export class AuthService {
       })
 
     return this.token;
+  }
+
+  getUser(){
+    return localStorage.getItem('usrid');
   }
 }

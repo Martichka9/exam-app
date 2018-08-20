@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { ABook } from "../models/book.model";
 
@@ -7,9 +6,8 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { AngularFirestore, DocumentReference } from 'angularfire2/firestore';
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { transition } from "../../../node_modules/@angular/animations";
-import { ngDevModeResetPerfCounters } from "../../../node_modules/@angular/core/src/render3/ng_dev_mode";
-import { DatabaseReference } from "../../../node_modules/angularfire2/database/interfaces";
+import { AuthService } from "../authentication/authentication/auth.service";
+import { UserProfile } from "../models/user-profile.model";
 
 const baseUrl = "https://exam-app-bc38c.firebaseio.com/books/";
 
@@ -19,6 +17,8 @@ const baseUrl = "https://exam-app-bc38c.firebaseio.com/books/";
 export class BooksService{
   private dbPath = '/books';
   private docRef : any;
+  private usrList = "/userProfs";
+  private currUser = localStorage.getItem('usrid');
   aBookRef : AngularFireList<ABook> = null;
   abookPath : string = baseUrl;
   bookReview : ABook;
@@ -27,7 +27,7 @@ export class BooksService{
     
 
   constructor(private db: AngularFireDatabase,private router : Router,
-    private toastr : ToastrService, private afs : AngularFirestore) {
+    private toastr : ToastrService, private afs : AngularFirestore, private authServ : AuthService) {
     this.aBookRef = db.list(this.dbPath);
   }
  
@@ -83,5 +83,26 @@ export class BooksService{
           transaction.update(this.docRef, {upvotes: this.newUpvotes});
           this.toastr.success(this.docRef.data.title + " book liked!", "Succsess!");
         },error => {this.toastr.error(error)}));
+  }
+
+  addInMyBooks(id : string){
+    let temp = [];
+    console.log(temp);
+    this.db.list(this.usrList).snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c => ({ id: c.payload.key, ...c.payload.val() }))
+      )
+    ).subscribe(users => {
+      console.log(this.usrList);
+      const ids = Object.keys(users);
+      for (const elem in ids) {
+        if (elem in users && elem === id) {
+          console.log("found");
+        } else {
+          return this.db.list(this.usrList).set(this.currUser,{bCollection: [id], bLiked: [id]});
+        }
+      }
+      console.log(users);
+    });
   }
 }

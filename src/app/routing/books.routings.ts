@@ -10,7 +10,7 @@ import { MyBooksComponent } from '../books/my-books/my-books.component';
 import { ReviewComponent } from '../books/review/review.component';
 
 const booksRoutes : Routes = [
-    { path: '', component: BooksComponent },
+    { path: '', component: BooksComponent, canActivate : [AuthGuard] },
     { path: 'edit/:id', component: EditBookComponent, canActivate : [AuthGuard] },
     { path: 'add', component: CreateBookComponent, canActivate : [AuthGuard] },
     { path: 'my', component: MyBooksComponent, canActivate : [AuthGuard] },
