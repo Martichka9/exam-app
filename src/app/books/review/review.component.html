@@ -10,7 +10,7 @@
                     <h5 class="card-title my-2">{{aBook.author}}</h5>
                     <h6>{{aBook.upvotes}}<button type="button" class="btn btn-success ml-5  my-2"><i class="far fa-thumbs-up"></i></button></h6>
                     <p class="card-text">{{aBook.description}}</p>
-                    <button type="button" class="btn btn-warning mx-1 my-2"><i class="fas fa-heart text-danger"></i> Add to collection</button>
+                    <button type="button" class="btn btn-warning mx-1 my-2" (click)="bServ.addInMyBooks(aBook.id)"><i class="fas fa-heart text-danger"></i> Add to collection</button>
                 </div>
             </div>
         </div>

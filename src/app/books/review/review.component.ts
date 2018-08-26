@@ -16,7 +16,15 @@ export class ReviewComponent implements OnInit {
   constructor(private bServ : BooksService,private router : Router) { }
 
   ngOnInit() {
-    this.currentBook = this.router.url.toString().replace(`/books/review/`,``);
+    console.log(this.router.url.toString().substring(0,16) === "/books/my/review/");
+    if(this.router.url.toString().substring(0,16) === "/books/my/review/"){
+      this.currentBook = this.router.url.toString().replace(`/books/my/review/`,``);
+      console.log(this.router.url.toString().replace(`/books/my/review/`,``));
+    }else{
+      this.currentBook = this.router.url.toString().replace(`/books/review/`,``);
+      console.log(this.router.url.toString().replace(`/books/review/`,``));
+    }
+
     this.bServ.reviewBook(this.currentBook).snapshotChanges().pipe(
       map(booksList =>
         booksList.map(c => ({ id: c.payload.key, ...c.payload.val() }))

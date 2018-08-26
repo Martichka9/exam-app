@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { map } from "rxjs/operators";
+import { map, find } from "rxjs/operators";
 import { ABook } from "../models/book.model";
 
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
@@ -86,23 +86,13 @@ export class BooksService{
   }
 
   addInMyBooks(id : string){
-    let temp = [];
-    console.log(temp);
-    this.db.list(this.usrList).snapshotChanges().pipe(
-      map(changes =>
-        changes.map(c => ({ id: c.payload.key, ...c.payload.val() }))
-      )
-    ).subscribe(users => {
-      console.log(this.usrList);
-      const ids = Object.keys(users);
-      for (const elem in ids) {
-        if (elem in users && elem === id) {
-          console.log("found");
-        } else {
-          return this.db.list(this.usrList).set(this.currUser,{bCollection: [id], bLiked: [id]});
-        }
-      }
-      console.log(users);
-    });
+      this.db.list(`${this.usrList}/${this.currUser}/bCollection`).push(id).then(res => {
+        this.toastr.info("You successfully added this book to your collection!");
+        this.router.navigate(['/my']);},
+      res => this.toastr.warning(res,"Warning!"));
+  }
+
+  myBooks(){
+    return this.db.list(`${this.usrList}/${this.currUser}/bCollection`);
   }
 }
