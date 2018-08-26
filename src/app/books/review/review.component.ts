@@ -16,8 +16,7 @@ export class ReviewComponent implements OnInit {
   constructor(private bServ : BooksService,private router : Router) { }
 
   ngOnInit() {
-    console.log(this.router.url.toString().substring(0,16) === "/books/my/review/");
-    if(this.router.url.toString().substring(0,16) === "/books/my/review/"){
+    if(this.router.url.toString().search(`/books/my/review/`) === 0){
       this.currentBook = this.router.url.toString().replace(`/books/my/review/`,``);
       console.log(this.router.url.toString().replace(`/books/my/review/`,``));
     }else{

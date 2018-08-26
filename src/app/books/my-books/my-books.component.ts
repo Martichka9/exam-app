@@ -40,7 +40,6 @@ export class MyBooksComponent implements OnInit {
             this.myBooks.push(element);
           }  
         });
-        console.log(this.myBooks)
       });
     })
   }

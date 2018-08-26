@@ -16,9 +16,10 @@ const baseUrl = "https://exam-app-bc38c.firebaseio.com/books/";
 })
 export class BooksService{
   private dbPath = '/books';
-  private docRef : any;
   private usrList = "/userProfs";
   private currUser = localStorage.getItem('usrid');
+  private bCollection = [];
+  private haveIt = true;
   aBookRef : AngularFireList<ABook> = null;
   abookPath : string = baseUrl;
   bookReview : ABook;
@@ -74,23 +75,37 @@ export class BooksService{
   }
 
   like(id:string){
-    this.docRef = this.afs.collection("books").doc(id).ref;
-    console.log("docref");
-    console.log(this.docRef);
-    this.afs.firestore.runTransaction(transaction => 
-      transaction.get(this.docRef).then((data) =>{
-          this.newUpvotes = this.docRef.data.upvotes + 1;
-          transaction.update(this.docRef, {upvotes: this.newUpvotes});
-          this.toastr.success(this.docRef.data.title + " book liked!", "Succsess!");
-        },error => {this.toastr.error(error)}));
+    ///////////////////
   }
 
   addInMyBooks(id : string){
+    this.db.list(`${this.usrList}/${this.currUser}/bCollection`).snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c => ({ data: c.payload.val() }))
+      )
+    ).subscribe(bCollection => {
+        bCollection.forEach(element => {
+        this.bCollection.push(element['data']);
+      
+      });
+
+      bCollection.forEach(element => {
+        if (this.bCollection.indexOf(element['id']) === -1){
+            this.haveIt = false;
+          }
+        });
+    });
+    if(this.haveIt === false){
       this.db.list(`${this.usrList}/${this.currUser}/bCollection`).push(id).then(res => {
-        this.toastr.info("You successfully added this book to your collection!");
-        this.router.navigate(['/my']);},
+      this.haveIt = true;
+      this.toastr.success("You successfully added this book to your collection!");
+      this.router.navigate(['/my']);},
       res => this.toastr.warning(res,"Warning!"));
-  }
+    } else {
+      this.toastr.warning("You already have this book in your collection!");
+      this.router.navigate(['/books']);
+    }
+}
 
   myBooks(){
     return this.db.list(`${this.usrList}/${this.currUser}/bCollection`);
