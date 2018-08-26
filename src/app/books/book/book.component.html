@@ -1,4 +1,7 @@
-
+<div *ngIf="authServ.isAuthenticated() && bServ.isAdmin()" class="d-flex justify-content-around mt-1 mb-3">
+  <button type="button" class="btn btn-danger mx-1" (click)="bServ.deleteBook(book.id)"><i class="fas fa-trash-alt"></i> Remove</button>
+  <a type="button" class="btn btn-primary mx-1" routerLink="edit/{{book.id}}"><i class="fas fa-pencil-alt text-light"></i> Edit</a>
+</div>
 <div class="align-items-end">
   <div class="bookContainer">
     <a class="view">
@@ -7,9 +10,9 @@
       <h5 class="list-grouh2-item-text text-center">{{book.author}}</h5>
     </a>
   </div>
-  <div *ngIf="authServ.isAuthenticated()" class="d-flex justify-content-around my-2">
-      <button type="button" class="btn btn-success mx-1" (click)="bServ.like(book.id)"><i class="far fa-thumbs-up"></i></button>
-      <a class="btn btn-info mx-1 text-light" routerLink="review/{{book.id}}" ><i class="fas fa-glasses text-dark"></i> Review</a>
-      <button type="button" class="btn btn-warning mx-1" (click)="bServ.addInMyBooks(book.id)"><i class="fas fa-heart text-danger"></i> Add to collection</button>
-  </div>
+</div>
+<div *ngIf="authServ.isAuthenticated()" class="d-flex justify-content-around my-2">
+  <button type="button" class="btn btn-success mx-1" (click)="bServ.like(book.id)"><i class="far fa-thumbs-up"></i></button>
+  <a class="btn btn-info mx-1 text-light" routerLink="review/{{book.id}}" ><i class="fas fa-glasses text-dark"></i> Review</a>
+  <button type="button" class="btn btn-warning mx-1" (click)="bServ.addInMyBooks(book.id)"><i class="fas fa-heart text-danger"></i> Add to collection</button>
 </div>

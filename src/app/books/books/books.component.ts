@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BooksService } from '../books.service';
 import { map } from "rxjs/operators";
 import { AuthService } from '../../authentication/authentication/auth.service';
@@ -15,6 +15,7 @@ export class BooksComponent implements OnInit {
  
   ngOnInit() {
     this.getBooksList();
+    this.bServ.clear();
   }
  
   getBooksList() {
@@ -28,6 +29,6 @@ export class BooksComponent implements OnInit {
   }
   
   ngOnDestroy() {
-    
+    this.bServ.clear();
   }
 }

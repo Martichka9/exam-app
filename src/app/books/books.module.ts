@@ -9,6 +9,7 @@ import { environment } from "../environments/environment"
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreModule } from '../../../node_modules/angularfire2/firestore';
+import { BookComponent } from './book/book.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { AngularFirestore, AngularFirestoreModule } from '../../../node_modules/
     AngularFirestore
 	],
 	exports: [
-    CommonModule
+    CommonModule,
+    BookComponent
 	]
 })
 export class BooksModule { }

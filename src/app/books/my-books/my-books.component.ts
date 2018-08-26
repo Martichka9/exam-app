@@ -13,16 +13,18 @@ import { ValueTransformer } from '../../../../node_modules/@angular/compiler/src
 export class MyBooksComponent implements OnInit {
   booksList = [];
   myBooks = [];
+  private loadList : any;
  
   constructor(private bServ : BooksService,private authServ : AuthService) { }
  
   ngOnInit() {
     this.loadMyList();
+    this.bServ.clear();
   }
   
   loadMyList(){
     //this.myBooks = 
-    this.bServ.myBooks().snapshotChanges().pipe(
+    this.loadList = this.bServ.myBooks().snapshotChanges().pipe(
       map(changes =>
         changes.map(c => ({ data: c.payload.val() }))
       )
@@ -42,5 +44,10 @@ export class MyBooksComponent implements OnInit {
         });
       });
     })
+  }
+  
+  ngOnDestroy() {
+    this.bServ.clear();
+    this.loadList.unsubscribe();
   }
 }

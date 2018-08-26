@@ -3,13 +3,10 @@ import { map, find } from "rxjs/operators";
 import { ABook } from "../models/book.model";
 
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { AngularFirestore, DocumentReference } from 'angularfire2/firestore';
+import { AngularFirestore,  } from 'angularfire2/firestore';
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../authentication/authentication/auth.service";
-import { UserProfile } from "../models/user-profile.model";
-import { functions } from "../../../node_modules/firebase";
-import { Observable } from "../../../node_modules/rxjs";
 
 const baseUrl = "https://exam-app-bc38c.firebaseio.com/books/";
 
@@ -30,19 +27,40 @@ export class BooksService{
   private usrID : any;
   private isADMN = false;
   private temp = {};
-    
+  //OBS
+  private admn : any;
+  private likedBook : any;
+  private addToMy : any;
+  private myBooksList : any;
 
   constructor(private db: AngularFireDatabase,private router : Router,
     private toastr : ToastrService, private afs : AngularFirestore, private authServ : AuthService) {
     this.aBookRef = db.list(this.dbPath);
   }
  
+  clear(){
+    if(this.admn !== undefined){
+      this.admn.unsubscribe();
+    }
+    if(this.likedBook !== undefined){
+      this.likedBook.unsubscribe();
+    }
+    if(this.addToMy !== undefined){
+      this.addToMy.unsubscribe();
+    }
+    if(this.myBooksList !== undefined){
+      this.myBooksList.unsubscribe();
+    }
+  }
+
   isAdmin(id : string){
-    this.db.object(`/users/${this.currUser}`).snapshotChanges().subscribe(usr => {
+    this.admn = this.db.object(`/users/${this.currUser}`).snapshotChanges().subscribe(usr => {
       this.temp = usr.payload.val();
-      if(this.temp['isAdmin']){
-        this.isADMN = true
-      }
+      if(this.temp !== null){
+        if(this.temp['isAdmin']){
+          this.isADMN = true
+        }
+      }else{this.isADMN = false;}
     },err => {this.isADMN = false;});
     return this.isADMN;
   }
@@ -91,7 +109,7 @@ export class BooksService{
 
   like(id:string){
     this.newUpvotes = 0;
-    this.aBookRef.snapshotChanges().pipe(
+    this.likedBook = this.aBookRef.snapshotChanges().pipe(
     map(booksList =>
       booksList.map(c => ({ id: c.payload.key, ...c.payload.val() }))
     )).pipe(map(booksList => booksList.find(book => book.id === id))
@@ -104,7 +122,7 @@ export class BooksService{
   }
 
   addInMyBooks(id : string){
-    this.db.list(`${this.usrList}/${this.currUser}/bCollection`).snapshotChanges().pipe(
+    this.addToMy = this.db.list(`${this.usrList}/${this.currUser}/bCollection`).snapshotChanges().pipe(
       map(changes =>
         changes.map(c => ({ data: c.payload.val() }))
       )
@@ -133,6 +151,7 @@ export class BooksService{
 }
 
   myBooks(){
+    //this.myBooksList = this.db.list(`${this.usrList}/${this.currUser}/bCollection`);
     return this.db.list(`${this.usrList}/${this.currUser}/bCollection`);
   }
 }

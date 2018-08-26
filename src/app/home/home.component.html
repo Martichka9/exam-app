@@ -1,3 +1,19 @@
 <div class="container text-center" *ngIf="this.authServ.currentUserName">
   <h1>Hello {{this.authServ.currentUserName}}!</h1>
 </div>
+<div class="container-fluid mt-3">
+  <ul class="d-flex flex-wrap justify-content-around">
+    <li *ngFor="let book of booksList" class="abook border border-warning mx-1 my-1">
+      <app-book [book]='book'></app-book>
+    </li>
+  </ul>
+  <div class="text-center"  *ngIf="!authServ.isAuthenticated()">
+    <p>Want to see more?</p>
+    <button class="btn btn-info mx-1 text-light" (click)="goToSignin()">Sign in</button>
+    <span>or</span>
+    <button class="btn btn-info mx-1 text-light" (click)="goToSignup()">Sign up</button>
+  </div>
+  <div class="text-center"  *ngIf="authServ.isAuthenticated()">
+    <button class="btn btn-info mx-1 text-light" (click)="goToBooks()">More Books</button>
+  </div>
+</div>
