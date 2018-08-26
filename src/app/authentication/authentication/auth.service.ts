@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as firebase  from "firebase";
 import { Router } from '@angular/router';
-import { ToastrService } from '../../../../node_modules/ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class AuthService {
   public tempUser : any;
   public currentUserName: string;
-  public usrID : string;
   public token : string;
 
   constructor(private http : HttpClient,private router: Router, private toastr: ToastrService) {  }
@@ -66,4 +65,5 @@ export class AuthService {
   getUser(){
     return localStorage.getItem('usrid');
   }
+
 }

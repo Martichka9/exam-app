@@ -8,6 +8,8 @@ import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../authentication/authentication/auth.service";
 import { UserProfile } from "../models/user-profile.model";
+import { functions } from "../../../node_modules/firebase";
+import { Observable } from "../../../node_modules/rxjs";
 
 const baseUrl = "https://exam-app-bc38c.firebaseio.com/books/";
 
@@ -25,6 +27,9 @@ export class BooksService{
   bookReview : ABook;
   tempTitle : string = "";
   newUpvotes : number;
+  private usrID : any;
+  private isADMN = false;
+  private temp = {};
     
 
   constructor(private db: AngularFireDatabase,private router : Router,
@@ -32,6 +37,16 @@ export class BooksService{
     this.aBookRef = db.list(this.dbPath);
   }
  
+  isAdmin(id : string){
+    this.db.object(`/users/${this.currUser}`).snapshotChanges().subscribe(usr => {
+      this.temp = usr.payload.val();
+      if(this.temp['isAdmin']){
+        this.isADMN = true
+      }
+    },err => {this.isADMN = false;});
+    return this.isADMN;
+  }
+
   getAllBooks() : AngularFireList<ABook> {
     return this.aBookRef;
   }
@@ -75,7 +90,17 @@ export class BooksService{
   }
 
   like(id:string){
-    ///////////////////
+    this.newUpvotes = 0;
+    this.aBookRef.snapshotChanges().pipe(
+    map(booksList =>
+      booksList.map(c => ({ id: c.payload.key, ...c.payload.val() }))
+    )).pipe(map(booksList => booksList.find(book => book.id === id))
+    ).subscribe(book => {
+      this.newUpvotes = book['upvotes'] + 1
+      console.log(book['upvotes']);
+      console.log(this.newUpvotes);
+      this.aBookRef.update(id,{upvotes : this.newUpvotes}).catch(err => this.toastr.error(err, "Warning"));
+    },err => this.toastr.error(err,"Error!"));
   }
 
   addInMyBooks(id : string){

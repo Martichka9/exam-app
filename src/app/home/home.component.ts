@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
   constructor(private authServ : AuthService,private BServ : BooksService) { }
 
   ngOnInit() {
+    this.BServ.isAdmin(localStorage.getItem('usrid'));
   }
 
 }

@@ -26,4 +26,8 @@ export class BooksComponent implements OnInit {
       this.booksList = booksList;
     });
   }
+  
+  ngOnDestroy() {
+    
+  }
 }
