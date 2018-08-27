@@ -42,5 +42,11 @@ export class HomeComponent implements OnInit,OnDestroy {
 
   ngOnDestroy() {
     this.obsBooks.unsubscribe();
+    if(this.bServ.addToMy !== undefined){
+      this.bServ.addToMy.unsubscribe();
+    }
+    if(this.bServ.likedBook !== undefined){
+      this.bServ.likedBook.unsubscribe();
+    }
   }
 }

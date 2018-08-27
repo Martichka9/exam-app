@@ -25,8 +25,8 @@ export class BooksService{
   tempTitle : string = "";
   newUpvotes : number;
   ///obs
-  private likedBook : any;
-  private addToMy : any;
+  public likedBook : any;
+  public addToMy : any;
   private myBooksList : any;
 
   constructor(private db: AngularFireDatabase,private router : Router,
@@ -37,12 +37,6 @@ export class BooksService{
   clear(){
     if(this.likedBook !== undefined){
       this.likedBook.unsubscribe();
-    }
-    if(this.addToMy !== undefined){
-      this.addToMy.unsubscribe();
-    }
-    if(this.myBooksList !== undefined){
-      this.myBooksList.unsubscribe();
     }
   }
 
@@ -89,18 +83,26 @@ export class BooksService{
   }
 
   like(id:string){
-    this.newUpvotes = 0;
     this.likedBook = this.aBookRef.snapshotChanges().pipe(
     map(booksList =>
       booksList.map(c => ({ id: c.payload.key, ...c.payload.val() }))
     )).pipe(map(booksList => booksList.find(book => book.id === id))
     ).subscribe(book => {
-      this.newUpvotes = book['upvotes'] + 1
-      console.log(book['upvotes']);
+      this.newUpvotes = book['upvotes']+1;
       console.log(this.newUpvotes);
-      this.aBookRef.update(id,{upvotes : this.newUpvotes}).catch(err => this.toastr.error(err, "Warning"));
+      console.log(book['upvotes']);
+      //this.aBookRef.update(id,{upvotes : this.newUpvotes}).catch(err => this.toastr.error(err, "Warning"));
     },err => this.toastr.error(err,"Error!"));
+    this.updateUpvotes(id);
   }
+
+  updateUpvotes(key: string): void {
+    this.aBookRef.update(key, {upvotes : this.newUpvotes})
+    .then(res => {this.toastr.info("Book liked successfuly!"),
+    this.likedBook.unsubscribe();
+          res => this.toastr.warning(res,"Warning!")})
+    .catch(error => this.toastr.error(error, "Warning"));
+}
 
   addInMyBooks(id : string){
     this.addToMy = this.db.list(`${this.usrList}/${this.currUser}/bCollection`).snapshotChanges().pipe(
@@ -129,6 +131,8 @@ export class BooksService{
       this.toastr.warning("You already have this book in your collection!");
       this.router.navigate(['/books']);
     }
+    console.log(this.bCollection);
+    this.bCollection = [];
 }
 
   myBooks(){

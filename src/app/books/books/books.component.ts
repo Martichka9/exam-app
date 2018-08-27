@@ -9,8 +9,9 @@ import { AuthService } from '../../authentication/authentication/auth.service';
   styleUrls: ['./books.component.css']
 })
 export class BooksComponent implements OnInit,OnDestroy {
-  booksList: any;
-  obsBooks : any;
+  private booksList: any;
+  private obsBooks : any;
+  private addToMy : any;
  
   constructor(private bServ : BooksService,private authServ : AuthService) { }
  
@@ -30,5 +31,11 @@ export class BooksComponent implements OnInit,OnDestroy {
   
   ngOnDestroy() {
     this.obsBooks.unsubscribe();
+    if(this.bServ.addToMy !== undefined){
+      this.bServ.addToMy.unsubscribe();
+    }
+    if(this.bServ.likedBook !== undefined){
+      this.bServ.likedBook.unsubscribe();
+    }
   }
 }

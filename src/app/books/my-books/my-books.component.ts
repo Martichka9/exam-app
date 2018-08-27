@@ -49,5 +49,8 @@ export class MyBooksComponent implements OnInit {
   ngOnDestroy() {
     this.loadList.unsubscribe();
     this.myList.unsubscribe();
+    if(this.bServ.likedBook !== undefined){
+      this.bServ.likedBook.unsubscribe();
+    }
   }
 }

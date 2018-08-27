@@ -42,5 +42,11 @@ export class ReviewComponent implements OnInit,OnDestroy {
 
   ngOnDestroy(){
     this.obsBook.unsubscribe();
+    if(this.bServ.addToMy !== undefined){
+      this.bServ.addToMy.unsubscribe();
+    }
+    if(this.bServ.likedBook !== undefined){
+      this.bServ.likedBook.unsubscribe();
+    }
   }
 }
