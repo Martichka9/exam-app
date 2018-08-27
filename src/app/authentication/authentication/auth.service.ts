@@ -3,14 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import * as firebase  from "firebase";
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Injectable()
 export class AuthService {
   public tempUser : any;
+  private currUser = localStorage.getItem('usrid');
   public currentUserName: string;
   public token : string;
+  private isADMN = false;
 
-  constructor(private http : HttpClient,private router: Router, private toastr: ToastrService) {  }
+  constructor(private http : HttpClient,private router: Router, private toastr: ToastrService,
+    private db: AngularFireDatabase) {  }
 
   signUp(userName: string, email: string,password:string){
     this.tempUser = firebase.auth().createUserWithEmailAndPassword(email,password)
@@ -21,7 +25,7 @@ export class AuthService {
       this.router.navigate(['/signin']);
       this.toastr.success("Your registration is successful.");})
     .catch((resError) => this.toastr.error(resError['message']));
-    this.tempUser.updateProfile({displayName: 'testme'});
+    //this.tempUser.updateProfile({displayName: 'testme'});
     
   }
   
@@ -37,6 +41,17 @@ export class AuthService {
       this.router.navigate(['/home']);
     })
     .catch((resError) => this.toastr.error(resError['message']));
+  }
+
+  role(){
+    return this.db.object(`/users/${this.currUser}`);
+  }
+
+  setAdmin(isIt : boolean){
+    this.isADMN = isIt;
+  }
+  isAdmin(isIt : boolean){
+    return this.isADMN;
   }
 
   signOut(){

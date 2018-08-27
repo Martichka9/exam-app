@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BooksService } from '../books.service';
 import { FormGroup,FormControl, FormBuilder, Validators } from "@angular/forms";
 import { ToastrService } from 'ngx-toastr';
@@ -11,10 +11,11 @@ import { ABook } from '../../models/book.model';
   templateUrl: './edit-book.component.html',
   styleUrls: ['./edit-book.component.css']
 })
-export class EditBookComponent implements OnInit {
+export class EditBookComponent implements OnInit,OnDestroy {
   editABookForm : FormGroup;
   loadedBook : ABook;
   lBPath : string = "";
+  obsBook : any;
 
   constructor(private bServ: BooksService, private editFB: FormBuilder, private toastr: ToastrService, private router : Router) { }
 
@@ -29,7 +30,7 @@ export class EditBookComponent implements OnInit {
     });
 
     this.lBPath = this.router.url.toString().replace(`/books/edit/`,``);
-    this.bServ.reviewBook(this.lBPath).snapshotChanges().pipe(
+    this.obsBook = this.bServ.reviewBook(this.lBPath).snapshotChanges().pipe(
       map(booksList =>
         booksList.map(c => ({ id: c.payload.key, ...c.payload.val() }))
       )
@@ -49,6 +50,10 @@ export class EditBookComponent implements OnInit {
 
   saveChanges(title : string,author: string, description: string, genre: string, imagePath: string,bestseller:string){
     this.bServ.editABook(this.lBPath, { title:this.editABookForm.get('title').value ,author:this.editABookForm.get('author').value, description:this.editABookForm.get('description').value, genre:this.editABookForm.get('genre').value, imagePath:this.editABookForm.get('imagePath').value,bestseller:this.editABookForm.get('bestseller').value });
+  }
+
+  ngOnDestroy(){
+    this.obsBook.unsubscribe();
   }
 }
 

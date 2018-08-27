@@ -24,11 +24,7 @@ export class BooksService{
   bookReview : ABook;
   tempTitle : string = "";
   newUpvotes : number;
-  private usrID : any;
-  private isADMN = false;
-  private temp = {};
-  //OBS
-  private admn : any;
+  ///obs
   private likedBook : any;
   private addToMy : any;
   private myBooksList : any;
@@ -39,9 +35,6 @@ export class BooksService{
   }
  
   clear(){
-    if(this.admn !== undefined){
-      this.admn.unsubscribe();
-    }
     if(this.likedBook !== undefined){
       this.likedBook.unsubscribe();
     }
@@ -51,18 +44,6 @@ export class BooksService{
     if(this.myBooksList !== undefined){
       this.myBooksList.unsubscribe();
     }
-  }
-
-  isAdmin(id : string){
-    this.admn = this.db.object(`/users/${this.currUser}`).snapshotChanges().subscribe(usr => {
-      this.temp = usr.payload.val();
-      if(this.temp !== null){
-        if(this.temp['isAdmin']){
-          this.isADMN = true
-        }
-      }else{this.isADMN = false;}
-    },err => {this.isADMN = false;});
-    return this.isADMN;
   }
 
   getAllBooks() : AngularFireList<ABook> {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,OnDestroy } from '@angular/core';
 import { BooksService } from '../books.service';
 import { map } from "rxjs/operators";
 import { AuthService } from '../../authentication/authentication/auth.service';
@@ -8,18 +8,18 @@ import { AuthService } from '../../authentication/authentication/auth.service';
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css']
 })
-export class BooksComponent implements OnInit {
+export class BooksComponent implements OnInit,OnDestroy {
   booksList: any;
+  obsBooks : any;
  
   constructor(private bServ : BooksService,private authServ : AuthService) { }
  
   ngOnInit() {
     this.getBooksList();
-    this.bServ.clear();
   }
  
   getBooksList() {
-    this.bServ.getAllBooks().snapshotChanges().pipe(
+    this.obsBooks = this.bServ.getAllBooks().snapshotChanges().pipe(
       map(changes =>
         changes.map(c => ({ id: c.payload.key, ...c.payload.val() }))
       )
@@ -29,6 +29,6 @@ export class BooksComponent implements OnInit {
   }
   
   ngOnDestroy() {
-    this.bServ.clear();
+    this.obsBooks.unsubscribe();
   }
 }

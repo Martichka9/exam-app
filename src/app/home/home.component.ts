@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from "../authentication/authentication/auth.service";
 import { BooksService } from '../books/books.service';
 import { map } from 'rxjs/operators';
@@ -9,19 +9,18 @@ import { Router } from '../../../node_modules/@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit,OnDestroy {
   booksList: any = [];
+  obsBooks : any;
 
   constructor(private authServ : AuthService,private bServ : BooksService, private router : Router) { }
 
   ngOnInit() {
-    this.bServ.isAdmin(localStorage.getItem('usrid'));
     this.getBooksList();
-    //this.bServ.clear();
   }
 
   getBooksList() {
-    this.bServ.getAllBooks().snapshotChanges().pipe(
+    this.obsBooks = this.bServ.getAllBooks().snapshotChanges().pipe(
       map(changes =>
         changes.map(c => ({ id: c.payload.key, ...c.payload.val() }))
       )
@@ -42,6 +41,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.bServ.clear();
+    this.obsBooks.unsubscribe();
   }
 }

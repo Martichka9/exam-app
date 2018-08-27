@@ -14,12 +14,12 @@ export class MyBooksComponent implements OnInit {
   booksList = [];
   myBooks = [];
   private loadList : any;
+  private myList : any;
  
   constructor(private bServ : BooksService,private authServ : AuthService) { }
  
   ngOnInit() {
     this.loadMyList();
-    this.bServ.clear();
   }
   
   loadMyList(){
@@ -32,7 +32,7 @@ export class MyBooksComponent implements OnInit {
       booksList.forEach(element => {
         this.booksList.push(element['data']);
       });      
-      this.bServ.getAllBooks().snapshotChanges().pipe(
+      this.myList = this.bServ.getAllBooks().snapshotChanges().pipe(
         map(books =>
           books.map(c => ({ id: c.payload.key, ...c.payload.val() }))
         )
@@ -47,7 +47,7 @@ export class MyBooksComponent implements OnInit {
   }
   
   ngOnDestroy() {
-    this.bServ.clear();
     this.loadList.unsubscribe();
+    this.myList.unsubscribe();
   }
 }

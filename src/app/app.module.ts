@@ -16,6 +16,12 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { BooksModule } from './books/books.module';
 import { BooksRoutingModule } from './routing/books.routings';
 
+import { environment } from "./environments/environment"
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreModule } from '../../node_modules/angularfire2/firestore';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +38,10 @@ import { BooksRoutingModule } from './routing/books.routings';
     HttpClientModule,
     ReactiveFormsModule,
     BooksModule,
-    BooksRoutingModule
+    BooksRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireDatabaseModule
   ],
   providers: [
     ToastrService,
@@ -41,7 +50,8 @@ import { BooksRoutingModule } from './routing/books.routings';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    AngularFirestore
   ],
   bootstrap: [AppComponent]
 })
