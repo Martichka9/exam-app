@@ -83,27 +83,11 @@ export class BooksService{
   }
 
   like(id:string){
-    this.likedBook = this.aBookRef.snapshotChanges().pipe(
-    map(booksList =>
-      booksList.map(c => ({ id: c.payload.key, ...c.payload.val() }))
-    )).pipe(map(booksList => booksList.find(book => book.id === id))
-    ).subscribe(book => {
-      this.newUpvotes = book['upvotes']+1;
-      console.log(this.newUpvotes);
-      console.log(book['upvotes']);
-      //this.aBookRef.update(id,{upvotes : this.newUpvotes}).catch(err => this.toastr.error(err, "Warning"));
-    },err => this.toastr.error(err,"Error!"));
-    this.updateUpvotes(id);
+    this.db.object(`books/${id}/upvotes`).query.ref.transaction(upvotes =>{
+      return upvotes+1;
+    });
   }
-
-  updateUpvotes(key: string): void {
-    this.aBookRef.update(key, {upvotes : this.newUpvotes})
-    .then(res => {this.toastr.info("Book liked successfuly!"),
-    this.likedBook.unsubscribe();
-          res => this.toastr.warning(res,"Warning!")})
-    .catch(error => this.toastr.error(error, "Warning"));
-}
-
+  
   addInMyBooks(id : string){
     this.addToMy = this.db.list(`${this.usrList}/${this.currUser}/bCollection`).snapshotChanges().pipe(
       map(changes =>
@@ -111,15 +95,10 @@ export class BooksService{
       )
     ).subscribe(bCollection => {
         bCollection.forEach(element => {
-        this.bCollection.push(element['data']);
-      
+        if (element['data'] === id){
+          this.haveIt = true;
+        }
       });
-
-      bCollection.forEach(element => {
-        if (this.bCollection.indexOf(element['id']) === -1){
-            this.haveIt = false;
-          }
-        });
     });
     if(this.haveIt === false){
       this.db.list(`${this.usrList}/${this.currUser}/bCollection`).push(id).then(res => {
@@ -131,8 +110,6 @@ export class BooksService{
       this.toastr.warning("You already have this book in your collection!");
       this.router.navigate(['/books']);
     }
-    console.log(this.bCollection);
-    this.bCollection = [];
 }
 
   myBooks(){

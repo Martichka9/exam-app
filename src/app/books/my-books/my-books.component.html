@@ -4,7 +4,7 @@
         <app-book [book]='book'></app-book>
         <div *ngIf="authServ.isAuthenticated()" class="d-flex justify-content-around my-2">
           <button type="button" class="btn btn-success mx-1" (click)="bServ.like(book.id)"><i class="far fa-thumbs-up"></i></button>
-          <a class="btn btn-info mx-1 text-light" routerLink="review/{{book.id}}" ><i class="fas fa-glasses text-dark"></i> Review</a>
+          <a class="btn btn-info mx-1 text-light" routerLink="../review/{{book.id}}" ><i class="fas fa-glasses text-dark"></i> Review</a>
           
         </div>
       </li>

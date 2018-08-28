@@ -17,19 +17,7 @@ export class ReviewComponent implements OnInit,OnDestroy {
   constructor(private bServ : BooksService,private router : Router) { }
 
   ngOnInit() {
-    console.log(this.router.url.toString());
-    if(this.router.url.toString().search(`/books/my/review/`) === 0){
-      this.currentBook = this.router.url.toString().replace(`/books/my/review/`,``);
-      console.log(this.currentBook);
-    }
-    if(this.router.url.toString().search(`/home/review/`) === 0){
-      this.currentBook = this.router.url.toString().replace(`/home/review/`,``);
-      console.log(this.currentBook);
-    }
-    else{
-      this.currentBook = this.router.url.toString().replace(`/books/review/`,``);
-    }
-
+    this.currentBook = this.router.url.toString().replace("/books/review/","");
     this.obsBook = this.bServ.reviewBook(this.currentBook).snapshotChanges().pipe(
       map(booksList =>
         booksList.map(c => ({ id: c.payload.key, ...c.payload.val() }))

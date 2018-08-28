@@ -50,15 +50,17 @@ export class AuthService {
   setAdmin(isIt : boolean){
     this.isADMN = isIt;
   }
-  isAdmin(isIt : boolean){
+  isAdmin(){
     return this.isADMN;
   }
 
   signOut(){
     firebase.auth().signOut();
     this.currentUserName = "";
+    this.currUser = "";
     this.token = null;
-    this.isAuthenticated();
+    //this.isAuthenticated();
+    localStorage.clear();
     this.router.navigate(['/signin']);
   }
 

@@ -13,6 +13,7 @@ export class SigninComponent implements OnInit,OnDestroy {
   isADMN = false;
   private temp = {};
   //OBS
+  private obsADMN : any;
 
   constructor(private authServ : AuthService, private signInFB: FormBuilder,private toastr: ToastrService) {}
 
@@ -25,25 +26,27 @@ export class SigninComponent implements OnInit,OnDestroy {
   
   signIn(){
     this.authServ.signIn(this.signInForm.get('email').value,this.signInForm.get('password').value);
+    this.usrRole();
   }
 
   usrRole(){
-    this.authServ.role().snapshotChanges().subscribe(usr => {
+    this.obsADMN = this.authServ.role().snapshotChanges().subscribe(usr => {
       this.temp = usr.payload.val();
       if(this.temp !== null){
-        if(this.temp['isAdmin']){
-          this.isADMN = true
+        if(this.temp['isAdmin'] === true){
+          this.isADMN = true;
+          this.isAdmin();
         }
       }else{this.isADMN = false;}
     },err => {this.isADMN = false;});
-    this.isAdmin();
+    
   }
 
   isAdmin(){
-    this.authServ.isAdmin(this.isADMN);
-    return this.isADMN;
+    this.authServ.setAdmin(this.isADMN);
   }
 
   ngOnDestroy() {
+    //this.obsADMN.unsubscribe();
   }
 }
