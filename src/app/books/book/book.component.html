@@ -4,7 +4,7 @@
 </div>
 <div class="align-items-end">
   <div class="bookContainer">
-    <a class="view">
+    <a class="view" (click)="review(book.id)">
       <img src="{{book.imagePath}}" alt="{{book.title}}" class="rounded mx-auto d-block" style="max-height: 150px;">
       <h4 class="list-group-item-heading text-center">{{book.title}}</h4>
       <h5 class="list-grouh2-item-text text-center">{{book.author}}</h5>
