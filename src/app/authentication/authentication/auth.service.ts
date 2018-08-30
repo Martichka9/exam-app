@@ -12,7 +12,7 @@ export class AuthService {
   private currUser = "";
   public currentUserName: string;
   public token : string;
-  private isADMN = false;
+  private isADMN :boolean = false;
   public obsADMN : any;
   private temp = {
     isAdmin: false
@@ -28,15 +28,11 @@ export class AuthService {
       this.currUser = data['user']['uid'];
       this.db.database.ref().child(`${this.dbPath}/${this.currUser}`).set(this.temp)
       .then(res => {
-        console.log(res)
       },res => console.log(res)).catch(error => console.log(error));
-      console.log(this.currUser);
       firebase.auth().currentUser.updateProfile({displayName: userName, photoURL: ""});
       this.router.navigate(['/signin']);
       this.toastr.success("Your registration is successful.");})
-    .catch((resError) => console.log(resError));
-    this.temp.isAdmin = true;
-    
+    .catch((resError) => console.log(resError));    
   }
   
   signIn(email: string,password:string){
@@ -46,16 +42,20 @@ export class AuthService {
       this.isADMN=data['user']['isAdmin'];
       localStorage.setItem('usrid',data['user']['uid']);
       this.currUser = firebase.auth().currentUser.uid;
-      console.log(data);
       firebase.auth().currentUser.getIdToken().then((resToken : string) => {
         this.token = resToken;
         localStorage.setItem('token',this.token);
+
+        this.db.object(`${this.dbPath}/${this.currUser}`).valueChanges().subscribe(data => {
+            this.isADMN = data['isAdmin'];
+            //console.log(this.isAdmin());
+        });
       }),
       this.router.navigate(['/home']);
+      
     })
     .catch((resError) => this.toastr.error(resError['message']));
     
-    console.log(this.db.database.ref().child(`${this.dbPath}/${this.currUser}/isAdmin`));
   }
 
   signOut(){
@@ -74,7 +74,7 @@ export class AuthService {
   }
   
   isAdmin(){
-    console.log(this.db.database.ref().child(`${this.dbPath}/${this.currUser}/isAdmin`));
+    return this.isADMN;
   }
 
   getToken() {

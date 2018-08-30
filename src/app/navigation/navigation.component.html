@@ -21,7 +21,7 @@
         <li *ngIf="authServ.isAuthenticated()" class="nav-item">
           <a class="nav-link pointer" (click)="signOut()">Sign out</a>
         </li>
-        <li *ngIf="authServ.isAuthenticated()" class="nav-item">
+        <li *ngIf="authServ.isAuthenticated() && authServ.isAdmin()" class="nav-item">
           <a class="nav-link pointer btn btn-primary text-light mx-1" routerLink="/books/add">Add New Book</a>
         </li>
       </ul>

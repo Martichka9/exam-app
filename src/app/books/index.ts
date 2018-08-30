@@ -4,6 +4,7 @@ import { EditBookComponent } from "./edit-book/edit-book.component";
 import { MyBooksComponent } from "./my-books/my-books.component";
 import { ReviewComponent } from "./review/review.component";
 import { BookComponent } from "./book/book.component";
+import { ReadComponent } from "./read/read.component";
 
 export const booksComponents = [
     BooksComponent,
@@ -11,5 +12,6 @@ export const booksComponents = [
     EditBookComponent,
     MyBooksComponent,
     ReviewComponent,
-    BookComponent
+    BookComponent,
+    ReadComponent
 ]

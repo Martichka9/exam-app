@@ -1,7 +1,4 @@
-<div *ngIf="authServ.isAuthenticated()" class="d-flex justify-content-around mt-1 mb-3">
-  <button type="button" class="btn btn-danger mx-1" (click)="bServ.deleteBook(book.id)"><i class="fas fa-trash-alt"></i> Remove</button>
-  <a type="button" class="btn btn-primary mx-1" routerLink="edit/{{book.id}}"><i class="fas fa-pencil-alt text-light"></i> Edit</a>
-</div>
+
 <div class="align-items-end">
   <div class="bookContainer">
     <a class="view" (click)="review(book.id)">
