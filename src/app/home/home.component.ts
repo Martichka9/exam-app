@@ -17,6 +17,10 @@ export class HomeComponent implements OnInit,OnDestroy {
 
   ngOnInit() {
     this.getBooksList();
+    console.log(this.authServ.token);
+    /* if(this.authServ.token === undefined){
+      this.authServ.token = localStorage.getItem('token');
+    } */
   }
 
   getBooksList() {

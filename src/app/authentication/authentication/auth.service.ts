@@ -7,25 +7,35 @@ import { AngularFireDatabase } from 'angularfire2/database';
 
 @Injectable()
 export class AuthService {
+  private dbPath = "/userProfs"
   public tempUser : any;
-  private currUser = localStorage.getItem('usrid');
+  private currUser = "";
   public currentUserName: string;
   public token : string;
   private isADMN = false;
+  public obsADMN : any;
+  private temp = {
+    isAdmin: false
+  };
 
   constructor(private http : HttpClient,private router: Router, private toastr: ToastrService,
-    private db: AngularFireDatabase) {  }
+    private db: AngularFireDatabase) { }
 
   signUp(userName: string, email: string,password:string){
-    this.tempUser = firebase.auth().createUserWithEmailAndPassword(email,password)
+    firebase.auth().createUserWithEmailAndPassword(email,password)
     .then((data) => {
       data['additionalUserInfo']['displayName'] = userName;
+      this.currUser = data['user']['uid'];
+      this.db.database.ref().child(`${this.dbPath}/${this.currUser}`).set(this.temp)
+      .then(res => {
+        console.log(res)
+      },res => console.log(res)).catch(error => console.log(error));
+      console.log(this.currUser);
       firebase.auth().currentUser.updateProfile({displayName: userName, photoURL: ""});
-      console.log(data);
       this.router.navigate(['/signin']);
       this.toastr.success("Your registration is successful.");})
-    .catch((resError) => this.toastr.error(resError['message']));
-    //this.tempUser.updateProfile({displayName: 'testme'});
+    .catch((resError) => console.log(resError));
+    this.temp.isAdmin = true;
     
   }
   
@@ -33,7 +43,10 @@ export class AuthService {
     firebase.auth().signInWithEmailAndPassword(email,password)
     .then((data) => {
       this.currentUserName=data['user']['displayName'];
+      this.isADMN=data['user']['isAdmin'];
       localStorage.setItem('usrid',data['user']['uid']);
+      this.currUser = firebase.auth().currentUser.uid;
+      console.log(data);
       firebase.auth().currentUser.getIdToken().then((resToken : string) => {
         this.token = resToken;
         localStorage.setItem('token',this.token);
@@ -41,24 +54,16 @@ export class AuthService {
       this.router.navigate(['/home']);
     })
     .catch((resError) => this.toastr.error(resError['message']));
-  }
-
-  role(){
-    return this.db.object(`/users/${this.currUser}`);
-  }
-
-  setAdmin(isIt : boolean){
-    this.isADMN = isIt;
-  }
-  isAdmin(){
-    return this.isADMN;
+    
+    console.log(this.db.database.ref().child(`${this.dbPath}/${this.currUser}/isAdmin`));
   }
 
   signOut(){
     firebase.auth().signOut();
-    this.currentUserName = "";
-    this.currUser = "";
-    this.token = null;
+    this.currentUserName = undefined;
+    this.currUser = undefined;
+    this.token = undefined;
+    this.isADMN = false;
     //this.isAuthenticated();
     localStorage.clear();
     this.router.navigate(['/signin']);
@@ -68,6 +73,10 @@ export class AuthService {
     return this.token != null;
   }
   
+  isAdmin(){
+    console.log(this.db.database.ref().child(`${this.dbPath}/${this.currUser}/isAdmin`));
+  }
+
   getToken() {
       firebase.auth()
       .currentUser

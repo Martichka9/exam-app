@@ -14,6 +14,7 @@ import { AppRoutingModule } from "../../routing/app.routing";
 export class SignupComponent implements OnInit {
   signUpForm : FormGroup;
   public errMess: string;
+  //private validPass : Validator;
   private userNameErrMessages = {
     required: "Please provide a username",
     minLength: "Your user name should be at least 5 characters long"
