@@ -5,3 +5,7 @@
     height: fit-content;
     box-sizing: border-box;
 }
+
+ul {
+    padding: 0px;
+}

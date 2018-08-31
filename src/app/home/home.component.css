@@ -1,7 +1,11 @@
 .abook {
-    padding-top: 5px;
+    padding-top: 15px;
     list-style-type: none;
     width: 345px;
     height: fit-content;
     box-sizing: border-box;
+}
+
+ul {
+    padding: 0px;
 }

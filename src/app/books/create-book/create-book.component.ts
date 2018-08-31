@@ -21,6 +21,7 @@ export class CreateBookComponent implements OnInit {
       description: ["",[Validators.required]],
       genre: ["",[Validators.required]],
       imagePath: ["",[Validators.required]],
+      read: ["",[Validators.required]],
       bestseller: [false,[Validators.required]]
     });
   }

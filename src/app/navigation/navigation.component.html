@@ -6,22 +6,22 @@
   
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li *ngIf="!authServ.isAuthenticated()" class="nav-item">
+        <li *ngIf="!authServ.isAuthenticated()" class="nav-item text-center">
           <a class="nav-link" routerLink="/signin">Sign in</a>
         </li>
-        <li *ngIf="!authServ.isAuthenticated()" class="nav-item ">
+        <li *ngIf="!authServ.isAuthenticated()" class="nav-item text-center">
           <a class="nav-link" routerLink="/signup">Sign up</a>
         </li>
-        <li  *ngIf="authServ.isAuthenticated()" class="nav-item">
+        <li  *ngIf="authServ.isAuthenticated()" class="nav-item text-center">
           <a class="nav-link pointer" routerLink="/books">All books</a>
         </li>
-        <li  *ngIf="authServ.isAuthenticated()" class="nav-item">
+        <li  *ngIf="authServ.isAuthenticated()" class="nav-item text-center">
           <a class="nav-link pointer" routerLink="/books/my">My books</a>
         </li>
-        <li *ngIf="authServ.isAuthenticated()" class="nav-item">
+        <li *ngIf="authServ.isAuthenticated()" class="nav-item text-center">
           <a class="nav-link pointer" (click)="signOut()">Sign out</a>
         </li>
-        <li *ngIf="authServ.isAuthenticated() && authServ.isAdmin()" class="nav-item">
+        <li *ngIf="authServ.isAuthenticated() && authServ.isAdmin()" class="nav-item text-center">
           <a class="nav-link pointer btn btn-primary text-light mx-1" routerLink="/books/add">Add New Book</a>
         </li>
       </ul>
