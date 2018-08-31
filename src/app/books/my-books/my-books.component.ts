@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BooksService } from '../books.service';
 import { map } from "rxjs/operators";
 import { AuthService } from '../../authentication/authentication/auth.service';
@@ -10,7 +10,7 @@ import { ValueTransformer } from '../../../../node_modules/@angular/compiler/src
   templateUrl: './my-books.component.html',
   styleUrls: ['./my-books.component.css']
 })
-export class MyBooksComponent implements OnInit {
+export class MyBooksComponent implements OnInit, OnDestroy {
   booksList = [];
   myBooks = [];
   private loadList : any;
@@ -51,6 +51,9 @@ export class MyBooksComponent implements OnInit {
     this.myList.unsubscribe();
     if(this.bServ.likedBook !== undefined){
       this.bServ.likedBook.unsubscribe();
+    }
+    if(this.bServ.removeBook !== undefined){
+      this.bServ.removeBook.unsubscribe();
     }
   }
 }

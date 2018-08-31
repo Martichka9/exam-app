@@ -22,13 +22,12 @@ export class BooksService{
   aBookRef : AngularFireList<ABook> = null;
   abookPath : string = baseUrl;
   bookReview : ABook;
-  tempTitle : string = "";
   newUpvotes : number;
   ///obs
   public likedBook : any;
   public addToMy : any;
   public addToMyCheck : any;
-  private myBooksList : any;
+  public removeBook : any;
 
   constructor(private db: AngularFireDatabase,private router : Router,
     private toastr : ToastrService, private afs : AngularFirestore, private authServ : AuthService) {
@@ -65,7 +64,7 @@ export class BooksService{
     res => this.toastr.warning(res,"Warning!"));
   }
   
-  deleteBook(id :string){
+  deleteBook(id :string, title: string){
     if (id !== null && id !== "" && id !== undefined){
       this.aBookRef.snapshotChanges().pipe(
         map(booksList =>
@@ -73,10 +72,9 @@ export class BooksService{
         )
       ).pipe(map(booksList => booksList.find(book => book.id === id))
       ).subscribe(book => {
-        this.tempTitle = book['title'];
       },err => this.toastr.error(err,"Error!"));
       this.aBookRef.remove(id);
-      this.toastr.warning(this.tempTitle + " book is permanently deleted.", "Warning!");
+      this.toastr.warning(title + " book is permanently deleted.", "Warning!");
     }
     else{
       this.toastr.error("You are not permited to delete this record!, Error!");
@@ -95,12 +93,52 @@ export class BooksService{
   }
 
   addInMyBooks(id : string){
-    console.log("in add method")
-    this.addToMy = this.db.object(`${this.usrList}/${this.currUser}/bCollection`).query.ref.transaction(data => {
-      for (const book of data.values()) {
-        console.log(book)
+    this.bCollection = [];
+    console.log(this.bCollection);
+    this.addToMy = this.db.list(`${this.usrList}/${this.currUser}/bCollection`).snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c => ({ id: c.payload.key, data: c.payload.val() }))
+      )
+    ).subscribe(books => {
+      console.log(books);
+      const ids = Object.keys(books);
+      for (const elem in ids) {
+        this.bCollection.push(books[elem]['data'])
       }
+      console.log(this.bCollection)
+      this.updateMyBooks(id);
     });
+  }
+
+  updateMyBooks(id : string){
+    this.addToMy.unsubscribe();
+    console.log(this.bCollection.indexOf(id));
+    if(this.bCollection.indexOf(id) !== -1){
+      this.toastr.warning("You already added this book to your collection!", "Warning!");
+    }
+    else{
+      console.log("adding in collection");
+      this.db.list(`${this.usrList}/${this.currUser}/bCollection`).push(id);
+      this.toastr.success("You successfully added this book to your collection!", "Success!");
+    }
+    
+  }
+  removeFromCollection(id : string, title: string){
+    if (id !== null && id !== "" && id !== undefined){
+      this.removeBook = this.db.list(`${this.usrList}/${this.currUser}/bCollection`).snapshotChanges().pipe(
+        map(booksList =>
+          booksList.map(c => ({ id: c.payload.key, ...c.payload.val() }))
+        )
+      ).pipe(map(booksList => booksList.find(book => book.id === id))
+      ).subscribe(book => {
+      },err => this.toastr.error(err,"Error!"));
+      this.db.list(`${this.usrList}/${this.currUser}/bCollection`).remove(id);
+      this.toastr.warning("You successfuly removed " + title + " from your collection.", "Warning!");
+
+    }
+    else{
+      this.toastr.error("You are not permited to delete this record!, Error!");
+    }
   }
   myBooks(){
     //this.myBooksList = this.db.list(`${this.usrList}/${this.currUser}/bCollection`);
