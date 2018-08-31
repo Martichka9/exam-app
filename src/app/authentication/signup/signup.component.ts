@@ -30,6 +30,7 @@ export class SignupComponent implements OnInit {
         email: ["",[Validators.required, Validators.email]],
         password: ["",[Validators.required]],
         confirmPass: ["",[Validators.required]],
+        //adminpass: ["",[Validators.required]],
         termsOfUse: [0,[Validators.required]]
     })
   }
