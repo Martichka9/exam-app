@@ -5,7 +5,6 @@ import { SignupComponent } from '../authentication/signup/signup.component';
 import { HomeComponent } from '../home/home.component';
 import { TermsOfUseComponent } from '../authentication/terms-of-use/terms-of-use.component';
 import { BooksModule } from '../books/books.module';
-import { AuthGuard } from '../authentication/authentication/auth.guard';
 
 const routes : Routes = [
     //{ path: 'home', component: HomeComponent },
@@ -13,7 +12,7 @@ const routes : Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'signin', component: SigninComponent},
     { path: 'signup', component: SignupComponent },
-    { path: 'terms', component: TermsOfUseComponent },
+    { path: 'terms-of-use', component: TermsOfUseComponent },
     { path: 'books', loadChildren: () => BooksModule }
   ]
   

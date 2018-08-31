@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../authentication/auth.service';
-import { FormGroup,FormControl, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ToastrService } from '../../../../node_modules/ngx-toastr';
 import { Router } from '@angular/router';
-import { AppRoutingModule } from "../../routing/app.routing";
 
 
 @Component({
@@ -42,5 +41,9 @@ export class SignupComponent implements OnInit {
       this.toastr.error("Please enter a valid data in the form and try again.");
     }
     
+  }
+
+  terms(){
+    this.router.navigate(['../terms-of-use']);
   }
 }
