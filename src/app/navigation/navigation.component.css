@@ -1,3 +1,10 @@
 .pointer:hover {
     cursor: pointer;
 }
+
+.customLogo {
+    opacity: 0.8;
+}
+nav > a.navbar-brand{
+    font-size: 23px;
+}
