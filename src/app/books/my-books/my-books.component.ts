@@ -23,7 +23,6 @@ export class MyBooksComponent implements OnInit, OnDestroy {
   }
   
   loadMyList(){
-    //this.myBooks = 
     this.loadList = this.bServ.myBooks().snapshotChanges().pipe(
       map(changes =>
         changes.map(c => ({ data: c.payload.val() }))
@@ -46,7 +45,9 @@ export class MyBooksComponent implements OnInit, OnDestroy {
     })
   }
   
-  ngOnDestroy() {
+  clearAll(){
+    this.booksList = [];
+    this.myBooks = [];
     this.loadList.unsubscribe();
     this.myList.unsubscribe();
     if(this.bServ.likedBook !== undefined){
@@ -55,5 +56,9 @@ export class MyBooksComponent implements OnInit, OnDestroy {
     if(this.bServ.removeBook !== undefined){
       this.bServ.removeBook.unsubscribe();
     }
+}
+
+  ngOnDestroy() {
+    this.clearAll();
   }
 }

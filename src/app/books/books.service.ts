@@ -18,7 +18,6 @@ export class BooksService{
   private usrList = "/userProfs";
   private currUser = localStorage.getItem('usrid');
   private bCollection = [];
-  private haveIt = true;
   aBookRef : AngularFireList<ABook> = null;
   abookPath : string = baseUrl;
   bookReview : ABook;
@@ -124,15 +123,19 @@ export class BooksService{
     
   }
   removeFromCollection(id : string, title: string){
+    let temp = "";
     if (id !== null && id !== "" && id !== undefined){
       this.removeBook = this.db.list(`${this.usrList}/${this.currUser}/bCollection`).snapshotChanges().pipe(
         map(booksList =>
-          booksList.map(c => ({ id: c.payload.key, ...c.payload.val() }))
+          booksList.map(c => ({ id: c.payload.key, data: c.payload.val()}))
         )
-      ).pipe(map(booksList => booksList.find(book => book.id === id))
+      ).pipe(map(booksList => booksList.find(book => book.data === id))
       ).subscribe(book => {
+        temp = book.id;
+        console.log(temp)
+        this.db.list(`${this.usrList}/${this.currUser}/bCollection`).remove(temp);
+        this.router.navigate(['/my']);
       },err => this.toastr.error(err,"Error!"));
-      this.db.list(`${this.usrList}/${this.currUser}/bCollection`).remove(id);
       this.toastr.warning("You successfuly removed " + title + " from your collection.", "Warning!");
 
     }
