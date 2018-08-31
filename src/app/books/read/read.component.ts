@@ -18,7 +18,7 @@ export class ReadComponent implements OnInit,OnDestroy {
 
   ngOnInit() {
     this.currentBook = this.router.url.toString().replace("/read/","");
-    console.log(this.currentBook);
+    //console.log(this.currentBook);
     this.obsBook = this.bServ.reviewBook(this.currentBook).snapshotChanges().pipe(
       map(booksList =>
         booksList.map(c => ({ id: c.payload.key, ...c.payload.val() }))
@@ -26,7 +26,7 @@ export class ReadComponent implements OnInit,OnDestroy {
     ).pipe(map(booksList => booksList.find(book => book.id === this.currentBook))
     ).subscribe(book => {
       this.aBook = book;
-      console.log(this.aBook['read'])
+      //console.log(this.aBook['read'])
     });
   }
 

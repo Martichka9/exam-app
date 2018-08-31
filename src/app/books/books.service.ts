@@ -93,18 +93,18 @@ export class BooksService{
 
   addInMyBooks(id : string){
     this.bCollection = [];
-    console.log(this.bCollection);
+    //console.log(this.bCollection);
     this.addToMy = this.db.list(`${this.usrList}/${this.currUser}/bCollection`).snapshotChanges().pipe(
       map(changes =>
         changes.map(c => ({ id: c.payload.key, data: c.payload.val() }))
       )
     ).subscribe(books => {
-      console.log(books);
+      //console.log(books);
       const ids = Object.keys(books);
       for (const elem in ids) {
         this.bCollection.push(books[elem]['data'])
       }
-      console.log(this.bCollection)
+      //console.log(this.bCollection)
       this.updateMyBooks(id);
     });
   }
@@ -119,6 +119,7 @@ export class BooksService{
       console.log("adding in collection");
       this.db.list(`${this.usrList}/${this.currUser}/bCollection`).push(id);
       this.toastr.success("You successfully added this book to your collection!", "Success!");
+      this.router.navigate(['/my']);
     }
     
   }

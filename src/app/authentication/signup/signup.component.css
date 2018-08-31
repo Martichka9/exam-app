@@ -5,3 +5,10 @@ a:hover {
 div > label > a.badge{
     font-size: 16px;
 }
+.tof-label {
+    padding: 0 10px;
+}
+
+.signFormsBtns{
+    float: right;
+}

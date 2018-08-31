@@ -1,4 +1,4 @@
-<div class="container mx-auto offset-3 col-4">
+<div class="container mx-auto offset-md-3 col-md-4 justify-content-center">
     <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
         <div>
         </div>    
@@ -19,10 +19,10 @@
           <input formControlName="confirmPass" type="password" class="form-control" id="confirmPass" placeholder="Confirm Password" required>
         </div>
         <div class="form-group form-check">
-          <input formControlName="termsOfUse" type="checkbox" class="form-check-input" id="termsOfUse" required>
-          <label class="form-check-label" for="termsOfUse">Confirm you agree with our</label>
+          <input formControlName="termsOfUse" type="checkbox" class="form-check-input ml-3" id="termsOfUse" required>
+          <label class="form-check-label tof-label" for="termsOfUse">Confirm you agree with our</label>
           <a target="_blank" (click)="terms()" class="badge badge-primary text-light">Terms of use</a>
         </div>
-        <button type="submit" class="btn btn-warning" [disabled]="signUpForm.invalid">Submit</button>
+        <button type="submit" class="btn btn-warning signFormsBtns" [disabled]="signUpForm.invalid">Submit</button>
       </form>
   </div>

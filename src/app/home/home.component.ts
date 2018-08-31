@@ -16,11 +16,10 @@ export class HomeComponent implements OnInit,OnDestroy {
   constructor(private authServ : AuthService,private bServ : BooksService, private router : Router) { }
 
   ngOnInit() {
-    this.getBooksList();
-    console.log(this.authServ.token);
     /* if(this.authServ.token === undefined){
       this.authServ.token = localStorage.getItem('token');
     } */
+    this.getBooksList();
   }
 
   getBooksList() {

@@ -19,6 +19,8 @@ export class MyBooksComponent implements OnInit, OnDestroy {
   constructor(private bServ : BooksService,private authServ : AuthService) { }
  
   ngOnInit() {
+    this.booksList = [];
+    this.myBooks = [];
     this.loadMyList();
   }
   
