@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { ABook } from "../../models/book.model"
 import { BooksService } from '../books.service';
-import { Router } from '../../../../node_modules/@angular/router';
 import { map } from 'rxjs/operators';
-import { ABook } from '../../models/book.model';
-
+import { Router } from '../../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-read',
@@ -19,7 +18,7 @@ export class ReadComponent implements OnInit,OnDestroy {
 
   ngOnInit() {
     this.currentBook = this.router.url.toString().replace("/read/","");
-    console.log(this.router.url.toString().replace("/read/",""));
+    console.log(this.currentBook);
     this.obsBook = this.bServ.reviewBook(this.currentBook).snapshotChanges().pipe(
       map(booksList =>
         booksList.map(c => ({ id: c.payload.key, ...c.payload.val() }))
@@ -27,6 +26,7 @@ export class ReadComponent implements OnInit,OnDestroy {
     ).pipe(map(booksList => booksList.find(book => book.id === this.currentBook))
     ).subscribe(book => {
       this.aBook = book;
+      console.log(this.aBook['read'])
     });
   }
 

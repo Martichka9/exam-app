@@ -95,39 +95,12 @@ export class BooksService{
   }
 
   addInMyBooks(id : string){
-    this.addToMy = this.db.list(`${this.usrList}/${this.currUser}/bCollection`).snapshotChanges()
-    .subscribe(data => {
-      if(data.length === 0){
-        this.haveIt = false;
-        this.checkMyBooks(false,id);
-      }else{
-        this.haveIt = true;
-        this.checkMyBooks(true,id);
+    console.log("in add method")
+    this.addToMy = this.db.object(`${this.usrList}/${this.currUser}/bCollection`).query.ref.transaction(data => {
+      for (const book of data.values()) {
+        console.log(book)
       }
     });
-  }
-  checkMyBooks (haveit : boolean, id: string){
-      if(haveit === true){
-        this.addToMy = this.db.list(`${this.usrList}/${this.currUser}/bCollection`).snapshotChanges().pipe(
-          map(changes =>
-            changes.map(c => ({ data: c.payload.val() }))
-          )
-        ).subscribe(bCollection => {
-          bCollection.forEach(element => {
-          if (element['data'] === id){
-            this.haveIt = true;
-            console.log("in have it");
-          }
-      });
-      if(this.haveIt){
-        this.updateMyBooks(id);
-      }else{this.toastr.warning("You already have this book in your collection!", "Warning!")}
-    });
-    }
-  }
-  updateMyBooks(id:string){
-    this.db.list(`${this.usrList}/${this.currUser}/bCollection`).push(id);
-    this.toastr.success("You successfully added this book to your collection!", "Success!");
   }
   myBooks(){
     //this.myBooksList = this.db.list(`${this.usrList}/${this.currUser}/bCollection`);

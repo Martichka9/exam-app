@@ -1,7 +1,11 @@
-<div class="container-fluid mt-3 col-9 offset-1 border-warning">
-  <!-- <div class="col-4 py-5">
-    <img src="{{aBook.imagePath}}" class="thumbnail">
-  </div> -->
-  <div class="col-8" *ngIf="aBook">
-  </div>
+<div class="container-fluid mt-3">
+    <div class="card col-10 offset-1 border-warning">
+        <div class="row" *ngIf="aBook">
+            <div class="card-block p-5">
+                <h4 class="card-title my-2 text-center">{{aBook.title}}</h4>  
+                <h5 class="card-title my-2 text-center">{{aBook.author}}</h5>
+                <p class="card-text text-justify">{{aBook.read}}</p>
+            </div>
+        </div>
+    </div>
 </div>
