@@ -107,6 +107,7 @@ export class BooksService{
       //console.log(this.bCollection)
       this.updateMyBooks(id);
     });
+    
   }
 
   updateMyBooks(id : string){
@@ -117,9 +118,10 @@ export class BooksService{
     }
     else{
       console.log("adding in collection");
-      this.db.list(`${this.usrList}/${this.currUser}/bCollection`).push(id);
+      this.db.list(`${this.usrList}/${this.currUser}/bCollection`).push(id).then(data => {
+        this.router.navigate(['/my']);
+      });
       this.toastr.success("You successfully added this book to your collection!", "Success!");
-      this.router.navigate(['/my']);
     }
     
   }
