@@ -112,12 +112,12 @@ export class BooksService{
 
   updateMyBooks(id : string){
     this.addToMy.unsubscribe();
-    console.log(this.bCollection.indexOf(id));
+    //console.log(this.bCollection.indexOf(id));
     if(this.bCollection.indexOf(id) !== -1){
       this.toastr.warning("You already added this book to your collection!", "Warning!");
     }
     else{
-      console.log("adding in collection");
+      //console.log("adding in collection");
       this.db.list(`${this.usrList}/${this.currUser}/bCollection`).push(id).then(data => {
         this.router.navigate(['/my']);
       });
